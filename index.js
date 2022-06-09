@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const cTable = require("console.table");
-const fs = require("fs");
+const mysql = require('mysql2');
+
 
 const starterQuestion = () => {
   inquirer
@@ -45,7 +46,7 @@ const starterQuestion = () => {
           addEmployee();
           break;
         case "Update Employee Role":
-          console.log(`You selected 'Update Employee Role'`);
+          updateEmployee();
           break;
         case "Quit":
           console.log(`You selected 'Quit'`);
@@ -131,7 +132,7 @@ const addEmployee = () => {
 };
 
 const updateEmployee = () => {
-  //TO DO: display all employees from employee table using unique id
+  console.log(`You still need to add an updateEmployee function dummy`)
 };
 
 const init = () => {
