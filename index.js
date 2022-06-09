@@ -66,7 +66,7 @@ const addDepartment = () => {
     .then((response) => {
       //TO DO: add the department to the department table
       console.log(
-        `You added ${response.addDepartment} to the departmentsdatabase`
+        `You added ${response.addDepartment} to the departments table`
       );
     });
 };
