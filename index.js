@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const cTable = require("console.table");
-const mysql = require('mysql2');
-
+const mysql = require("mysql2");
 
 const starterQuestion = () => {
   inquirer
@@ -16,6 +15,7 @@ const starterQuestion = () => {
           "View All Employees",
           "Add Department",
           "Add Role",
+          "Add Manager",
           "Add Employee",
           "Update Employee Role",
           "Exit",
@@ -41,6 +41,9 @@ const starterQuestion = () => {
           break;
         case "Add Role":
           addRole();
+          break;
+        case "Add Manager":
+          addManager();
           break;
         case "Add Employee":
           addEmployee();
@@ -102,6 +105,33 @@ const addRole = () => {
     });
 };
 
+const addManager = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "managerFirstName",
+        message: "What is your manager's first name?",
+      },
+      {
+        type: "input",
+        name: "managerLastName",
+        message: "What is your manager's last name?",
+      },
+      {
+        type: "list",
+        name: "managerDepartment",
+        message: "What department does your manager preside over?",
+        choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
+      }
+    ])
+    .then((response) => {
+      console.log(
+        `You created the manager ${response.managerFirstName} ${response.managerLastName} that manages the ${response.managerDepartment} department.`
+      );
+    });
+};
+
 const addEmployee = () => {
   inquirer
     .prompt([
@@ -132,7 +162,7 @@ const addEmployee = () => {
 };
 
 const updateEmployee = () => {
-  console.log(`You still need to add an updateEmployee function dummy`)
+  console.log(`You still need to add an updateEmployee function dummy`);
 };
 
 const init = () => {
