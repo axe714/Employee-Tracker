@@ -2,6 +2,16 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 const mysql = require("mysql2");
 
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    user: "root",
+    password: "root",
+    database: "company_db",
+  },
+  console.log(`You've connected to the company_db database`)
+);
+
 const starterQuestion = () => {
   inquirer
     .prompt([
@@ -12,6 +22,7 @@ const starterQuestion = () => {
         choices: [
           "View All Departments",
           "View All Roles",
+          "View All Managers",
           "View All Employees",
           "Add Department",
           "Add Role",
@@ -25,35 +36,56 @@ const starterQuestion = () => {
     .then((response) => {
       switch (response.starterQuestion) {
         case "View All Departments":
-          //TO DO: console.table all departments
-          console.log(`You selected 'View All Departments'`);
+          db.query("SELECT * FROM departments", function (err, results) {
+            console.table(results);
+            starterQuestion();
+          });
           break;
+
         case "View All Roles":
-          //TO DO: console.table all roles
-          console.log(`You selected 'View All Roles'`);
+          db.query("SELECT * FROM roles", function (err, results) {
+            console.table(results);
+            starterQuestion();
+          });
           break;
+
+        case "View All Managers":
+          db.query("SELECT * FROM managers", function (err, results) {
+            console.table(results);
+            starterQuestion();
+          });
+          break;
+
         case "View All Employees":
-          //TO DO: console.table all employees
-          console.log(`You selected 'View All Employees'`);
+          db.query("SELECT * FROM employees", function (err, results) {
+            console.table(results);
+            starterQuestion();
+          });
           break;
+
         case "Add Department":
           addDepartment();
           break;
+
         case "Add Role":
           addRole();
           break;
+
         case "Add Manager":
           addManager();
           break;
+
         case "Add Employee":
           addEmployee();
           break;
+
         case "Update Employee Role":
           updateEmployee();
           break;
-        case "Quit":
-          console.log(`You selected 'Quit'`);
-          break;
+
+        case "Exit":
+          console.log("Goodbye!");
+          return;
       }
     });
 };
@@ -132,7 +164,7 @@ const addManager = () => {
     ])
     .then((response) => {
       console.log(
-        `You created the manager ${response.managerFirstName} ${response.managerLastName} that manages the ${response.managerDepartment} department. His salary is ${response.managerSalary}.`
+        `You created the manager ${response.managerFirstName} ${response.managerLastName} that manages the ${response.managerDepartment} department. Their salary is ${response.managerSalary}.`
       );
     });
 };

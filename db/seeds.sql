@@ -20,7 +20,7 @@ VALUES
 INSERT INTO managers (manager_first_name, manager_last_name, department_id, salary)
 VALUES
     ("Allec", "Arzadon", 1, 200000),
-    ("Brian", "Allegre", 2, 150000),
+    ("Brian", "Alegre", 2, 150000),
     ("Connor", "Rockstar", 3, 54000);
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
