@@ -88,11 +88,15 @@ const addDepartment = () => {
       },
     ])
     .then((response) => {
-      db.query(`INSERT INTO departments (department_name) VALUES ("${response.addDepartment}");`, (err,results) => {
-        if (err) throw err;
-        viewDepartments();
-        starterQuestion();
-      })
+      //check if item already exists in database
+      db.query(
+        `INSERT INTO departments (department_name) VALUES ("${response.addDepartment}");`,
+        (err, results) => {
+          if (err) throw err;
+          viewDepartments();
+          starterQuestion();
+        }
+      );
     });
 };
 
@@ -114,8 +118,9 @@ const addRole = () => {
         type: "list",
         name: "roleDepartment",
         message: "What department does this role belong to?",
-        //TO DO: grab all departments from department table
+        //grab all departments from database and add to choices
         choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
+
       },
     ])
     .then((response) => {
@@ -192,6 +197,7 @@ const addEmployee = () => {
 
 const updateEmployee = () => {
   console.log(`You still need to add an updateEmployee function dummy`);
+  starterQuestion();
 };
 
 const viewDepartments = () => {
@@ -225,6 +231,44 @@ const viewEmployees = () => {
     starterQuestion();
   });
 };
+
+const departments = () => {
+  const departmentsArray = [];
+  db.query(`SELECT * FROM departments`, (err, results) => {
+    if (err) throw err;
+    console.log(results);
+    return results;
+  });
+};
+
+const roles = () => {
+  const rolesArray = [];
+  db.query(`SELECT * FROM roles`, (err, results) => {
+    if (err) throw err;
+    console.log(results);
+    return results;
+  });
+};
+
+const managers = () => {
+  const managersArray = [];
+  db.query(`SELECT * FROM managers`, (err, results) => {
+    if (err) throw err;
+    console.log(results);
+    console.log(results);
+    return results;
+  });
+};
+
+const employees = () => {
+  const employeesArray = [];
+  db.query(`SELECT * FROM employees`, (err, results) => {
+    if (err) throw err;
+    console.log(results);
+    return results;
+  });
+};
+
 const init = () => {
   starterQuestion();
 };
