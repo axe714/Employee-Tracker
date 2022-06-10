@@ -88,10 +88,11 @@ const addDepartment = () => {
       },
     ])
     .then((response) => {
-      console.log(
-        `You added ${response.addDepartment} to the departments table.`
-      );
-      starterQuestion();
+      db.query(`INSERT INTO departments (department_name) VALUES ("${response.addDepartment}");`, (err,results) => {
+        if (err) throw err;
+        viewDepartments();
+        starterQuestion();
+      })
     });
 };
 
@@ -113,7 +114,7 @@ const addRole = () => {
         type: "list",
         name: "roleDepartment",
         message: "What department does this role belong to?",
-        //TO DO: grab all departments from department table using unique id
+        //TO DO: grab all departments from department table
         choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
       },
     ])
@@ -195,50 +196,37 @@ const updateEmployee = () => {
 
 const viewDepartments = () => {
   db.query(`SELECT * FROM departments`, (err, results) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.table(results);
-      starterQuestion();
-    }
+    if (err) throw err;
+    console.table(results);
+    starterQuestion();
   });
 };
 
 const viewRoles = () => {
   db.query(`SELECT * FROM roles`, (err, results) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.table(results);
-      starterQuestion();
-    }
+    if (err) throw err;
+    console.table(results);
+    starterQuestion();
   });
 };
 
 const viewManagers = () => {
   db.query(`SELECT * FROM managers`, (err, results) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.table(results);
-      starterQuestion();
-    }
+    if (err) throw err;
+    console.table(results);
+    starterQuestion();
   });
 };
 
 const viewEmployees = () => {
   db.query(`SELECT * FROM employees`, (err, results) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.table(results);
-      starterQuestion();
-    }
+    if (err) throw err;
+    console.table(results);
+    starterQuestion();
   });
 };
-
 const init = () => {
   starterQuestion();
-}; 
+};
 
 init();
