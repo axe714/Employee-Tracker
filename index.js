@@ -1,6 +1,9 @@
 const inquirer = require("inquirer");
-// const cTable = require("console.table");
 const mysql = require("mysql2");
+const viewDepartments = require("./utils/viewData")
+const viewRoles = require("./utils/viewData")
+const viewManagers = require("./utils/viewData")
+const viewEmployees = require("./utils/viewData")
 
 const db = mysql.createConnection(
   {
@@ -12,7 +15,7 @@ const db = mysql.createConnection(
   console.log(`You've connected to the company_db database`)
 );
 
-const starterQuestion = () => {
+const starterQuestion = async () => {
   inquirer
     .prompt([
       {
@@ -78,6 +81,36 @@ const starterQuestion = () => {
     });
 };
 
+// const viewDepartments = async () => {
+//   const [availableDepartments] = await db
+//     .promise()
+//     .query(`SELECT * FROM departments`);
+//   console.table(availableDepartments);
+//   starterQuestion();
+// };
+
+// const viewRoles = async () => {
+//   const [availableRoles] = await db.promise().query(`SELECT * FROM roles`);
+//   console.table(availableRoles);
+//   starterQuestion();
+// };
+
+// const viewManagers = async () => {
+//   const [availableManagers] = await db
+//     .promise()
+//     .query(`SELECT * FROM employees`);
+//   console.table(availableManagers);
+//   starterQuestion();
+// };
+
+// const viewEmployees = async () => {
+//   const [availableEmployees] = await db
+//     .promise()
+//     .query(`SELECT * FROM employees`);
+//   console.table(availableEmployees);
+//   starterQuestion();
+// };
+
 const addDepartment = () => {
   inquirer
     .prompt([
@@ -118,9 +151,9 @@ const addRole = () => {
         type: "list",
         name: "roleDepartment",
         message: "What department does this role belong to?",
-        //grab all departments from database and add to choices
+        //TO DO: grab all departments from database and add to choices
+        // choices: departments().map(d => [{id: d.id, name: d.department_name}]),
         choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
-
       },
     ])
     .then((response) => {
@@ -200,38 +233,6 @@ const updateEmployee = () => {
   starterQuestion();
 };
 
-const viewDepartments = () => {
-  db.query(`SELECT * FROM departments`, (err, results) => {
-    if (err) throw err;
-    console.table(results);
-    starterQuestion();
-  });
-};
-
-const viewRoles = () => {
-  db.query(`SELECT * FROM roles`, (err, results) => {
-    if (err) throw err;
-    console.table(results);
-    starterQuestion();
-  });
-};
-
-const viewManagers = () => {
-  db.query(`SELECT * FROM managers`, (err, results) => {
-    if (err) throw err;
-    console.table(results);
-    starterQuestion();
-  });
-};
-
-const viewEmployees = () => {
-  db.query(`SELECT * FROM employees`, (err, results) => {
-    if (err) throw err;
-    console.table(results);
-    starterQuestion();
-  });
-};
-
 const departments = () => {
   const departmentsArray = [];
   db.query(`SELECT * FROM departments`, (err, results) => {
@@ -255,7 +256,6 @@ const managers = () => {
   db.query(`SELECT * FROM managers`, (err, results) => {
     if (err) throw err;
     console.log(results);
-    console.log(results);
     return results;
   });
 };
@@ -274,3 +274,5 @@ const init = () => {
 };
 
 init();
+
+module.exports = starterQuestion;
