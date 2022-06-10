@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const cTable = require("console.table");
+// const cTable = require("console.table");
 const mysql = require("mysql2");
 
 const db = mysql.createConnection(
@@ -72,9 +72,8 @@ const starterQuestion = () => {
           break;
 
         case "Exit":
-          console.log(`Goodbye!`)
+          console.log(`Goodbye!`);
           process.exit(1);
-          break;
       }
     });
 };
@@ -115,7 +114,7 @@ const addRole = () => {
         name: "roleDepartment",
         message: "What department does this role belong to?",
         //TO DO: grab all departments from department table using unique id
-        choices: ["Placeholder1", "Placeholder2", "Placeholder3"],
+        choices: [],
       },
     ])
     .then((response) => {
@@ -240,6 +239,6 @@ const viewEmployees = () => {
 
 const init = () => {
   starterQuestion();
-};
+}; 
 
 init();
