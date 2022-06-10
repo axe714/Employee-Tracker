@@ -72,7 +72,8 @@ const starterQuestion = () => {
           break;
 
         case "Exit":
-          console.log("Goodbye!");
+          console.log(`Goodbye!`)
+          process.exit(1);
           break;
       }
     });
@@ -88,11 +89,10 @@ const addDepartment = () => {
       },
     ])
     .then((response) => {
-      db.query("SELECT * FROM roles", (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      console.log(
+        `You added ${response.addDepartment} to the departments table.`
+      );
+      starterQuestion();
     });
 };
 
@@ -123,6 +123,7 @@ const addRole = () => {
       console.log(
         `You added ${response.addRole} with the salary of ${response.roleSalary} to the roles table`
       );
+      starterQuestion();
     });
 };
 
@@ -155,6 +156,7 @@ const addManager = () => {
       console.log(
         `You created the manager ${response.managerFirstName} ${response.managerLastName} that manages the ${response.managerDepartment} department. Their salary is ${response.managerSalary}.`
       );
+      starterQuestion();
     });
 };
 
@@ -184,6 +186,7 @@ const addEmployee = () => {
       console.log(
         `You added ${response.firstName} ${response.lastName} as a ${response.employeeRole} to the employee table`
       );
+      starterQuestion();
     });
 };
 
