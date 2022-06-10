@@ -36,31 +36,19 @@ const starterQuestion = () => {
     .then((response) => {
       switch (response.starterQuestion) {
         case "View All Departments":
-          db.query("SELECT * FROM departments", (err, results) => {
-            console.table(results);
-            starterQuestion();
-          });
+          viewDepartments();
           break;
 
         case "View All Roles":
-          db.query("SELECT * FROM roles", (err, results) => {
-            console.table(results);
-            starterQuestion();
-          });
+          viewRoles();
           break;
 
         case "View All Managers":
-          db.query("SELECT * FROM managers", (err, results) => {
-            console.table(results);
-            starterQuestion();
-          });
+          viewManagers();
           break;
 
         case "View All Employees":
-          db.query("SELECT * FROM employees", (err, results) => {
-            console.table(results);
-            starterQuestion();
-          });
+          viewEmployees();
           break;
 
         case "Add Department":
@@ -85,7 +73,7 @@ const starterQuestion = () => {
 
         case "Exit":
           console.log("Goodbye!");
-          return;
+          break;
       }
     });
 };
@@ -100,10 +88,11 @@ const addDepartment = () => {
       },
     ])
     .then((response) => {
-      //TO DO: add the department to the department table
-      console.log(
-        `You added ${response.addDepartment} to the departments table`
-      );
+      db.query("SELECT * FROM roles", (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+      });
     });
 };
 
@@ -200,6 +189,50 @@ const addEmployee = () => {
 
 const updateEmployee = () => {
   console.log(`You still need to add an updateEmployee function dummy`);
+};
+
+const viewDepartments = () => {
+  db.query(`SELECT * FROM departments`, (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.table(results);
+      starterQuestion();
+    }
+  });
+};
+
+const viewRoles = () => {
+  db.query(`SELECT * FROM roles`, (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.table(results);
+      starterQuestion();
+    }
+  });
+};
+
+const viewManagers = () => {
+  db.query(`SELECT * FROM managers`, (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.table(results);
+      starterQuestion();
+    }
+  });
+};
+
+const viewEmployees = () => {
+  db.query(`SELECT * FROM employees`, (err, results) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.table(results);
+      starterQuestion();
+    }
+  });
 };
 
 const init = () => {
