@@ -36,28 +36,28 @@ const starterQuestion = () => {
     .then((response) => {
       switch (response.starterQuestion) {
         case "View All Departments":
-          db.query("SELECT * FROM departments", function (err, results) {
+          db.query("SELECT * FROM departments", (err, results) => {
             console.table(results);
             starterQuestion();
           });
           break;
 
         case "View All Roles":
-          db.query("SELECT * FROM roles", function (err, results) {
+          db.query("SELECT * FROM roles", (err, results) => {
             console.table(results);
             starterQuestion();
           });
           break;
 
         case "View All Managers":
-          db.query("SELECT * FROM managers", function (err, results) {
+          db.query("SELECT * FROM managers", (err, results) => {
             console.table(results);
             starterQuestion();
           });
           break;
 
         case "View All Employees":
-          db.query("SELECT * FROM employees", function (err, results) {
+          db.query("SELECT * FROM employees", (err, results) => {
             console.table(results);
             starterQuestion();
           });
