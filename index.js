@@ -114,7 +114,7 @@ const addRole = () => {
         name: "roleDepartment",
         message: "What department does this role belong to?",
         //TO DO: grab all departments from department table using unique id
-        choices: [],
+        choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
       },
     ])
     .then((response) => {
