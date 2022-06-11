@@ -1,9 +1,9 @@
 const inquirer = require("inquirer");
 const db = require("./utils/connection");
 const viewDepartments = require("./utils/viewData/viewDepartments");
-const viewRoles = require("./utils/viewData/viewRoles.js")
-const viewManagers = require("./utils/viewData/viewManagers.js")
-const viewEmployees = require("./utils/viewData/viewEmployees.js")
+const viewRoles = require("./utils/viewData/viewRoles.js");
+const viewManagers = require("./utils/viewData/viewManagers.js");
+const viewEmployees = require("./utils/viewData/viewEmployees.js");
 const addDepartment = require("./utils/alterData/addDepartment");
 const addRole = require("./utils/alterData/addRole");
 const addManager = require("./utils/alterData/addManager");
@@ -34,39 +34,43 @@ const starterQuestion = () => {
     .then((response) => {
       switch (response.starterQuestion) {
         case "View All Departments":
-          viewDepartments();
-          return init();
+          viewDepartments(starterQuestion)
+          // .then(results => {
+          //   console.table(results);
+          //   setTimeout(starterQuestion, 2000);
+          // });
+          break;
 
         case "View All Roles":
-          viewRoles();
+          viewRoles(starterQuestion);
           break;
 
         case "View All Managers":
-          viewManagers();
+          viewManagers(starterQuestion);
           break;
 
         case "View All Employees":
-          viewEmployees();
+          viewEmployees(starterQuestion);
           break;
 
         case "Add Department":
-          addDepartment();
+          addDepartment(starterQuestion);
           break;
 
         case "Add Role":
-          addRole();
+          addRole(starterQuestion);
           break;
 
         case "Add Manager":
-          addManager();
+          addManager(starterQuestion);
           break;
 
         case "Add Employee":
-          addEmployee();
+          addEmployee(starterQuestion);
           break;
 
         case "Update Employee Role":
-          updateEmployee();
+          updateEmployee(starterQuestion);
           break;
 
         case "Exit":
@@ -82,4 +86,3 @@ const init = () => {
 
 init();
 
-module.exports = init
