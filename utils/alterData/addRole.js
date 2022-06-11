@@ -1,8 +1,11 @@
 const inquirer = require("inquirer");
-const db = require("../connection");
+const db = require("../../config/connection");
 
 const addRole = () => {
   //TO DO: add roles into role table
+  // const departmentChoices = db
+  //   .query(`SELECT * from departments`)
+  //   .then((departments) => {});
   inquirer
     .prompt([
       {
@@ -20,7 +23,7 @@ const addRole = () => {
         name: "roleDepartment",
         message: "What department does this role belong to?",
         //TO DO: grab all departments from department table
-        choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
+        choices: ["Placeholder 1", "PlaceHolder 2"],
       },
     ])
     .then((response) => {

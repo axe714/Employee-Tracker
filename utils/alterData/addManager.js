@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const db = require("../connection");
+const db = require("../../config/connection");
 
 const addManager = () => {
   inquirer

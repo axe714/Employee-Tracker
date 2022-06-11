@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const db = require("./utils/connection");
+const db = require("./config/connection");
 const viewDepartments = require("./utils/viewData/viewDepartments");
 const viewRoles = require("./utils/viewData/viewRoles.js");
 const viewManagers = require("./utils/viewData/viewManagers.js");
@@ -34,12 +34,13 @@ const starterQuestion = () => {
     .then((response) => {
       switch (response.starterQuestion) {
         case "View All Departments":
-          viewDepartments(starterQuestion)
+          viewDepartments(starterQuestion);
+          break
           // .then(results => {
           //   console.table(results);
           //   setTimeout(starterQuestion, 2000);
           // });
-          break;
+          
 
         case "View All Roles":
           viewRoles(starterQuestion);
