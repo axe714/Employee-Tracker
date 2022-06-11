@@ -3,7 +3,7 @@ const db = require("../../config/connection");
 const viewDepartments = (callback) => {
   db.query(`SELECT * FROM departments`, (err, results) => {
     if (err) throw err;
-    console.table(results);
+    console.table(results)
     setTimeout(callback, 2000);
   });
 };

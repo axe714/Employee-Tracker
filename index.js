@@ -35,12 +35,7 @@ const starterQuestion = () => {
       switch (response.starterQuestion) {
         case "View All Departments":
           viewDepartments(starterQuestion);
-          break
-          // .then(results => {
-          //   console.table(results);
-          //   setTimeout(starterQuestion, 2000);
-          // });
-          
+          break;
 
         case "View All Roles":
           viewRoles(starterQuestion);
@@ -86,4 +81,3 @@ const init = () => {
 };
 
 init();
-

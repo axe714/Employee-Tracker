@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
 const viewDepartments = require("../viewData/viewDepartments");
-//require index.js to call the starterQuestion function
 
 const addDepartment = (callback) => {
   inquirer
