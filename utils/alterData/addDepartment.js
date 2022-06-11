@@ -3,7 +3,7 @@ const db = require("../../config/connection");
 const viewDepartments = require("../viewData/viewDepartments");
 //require index.js to call the starterQuestion function
 
-const addDepartment = () => {
+const addDepartment = (callback) => {
   inquirer
     .prompt([
       {
@@ -17,7 +17,7 @@ const addDepartment = () => {
         `INSERT INTO departments (department_name) VALUES ("${response.addDepartment}");`,
         (err, results) => {
           if (err) throw err;
-          viewDepartments();
+          viewDepartments(callback);
         }
       );
     });
