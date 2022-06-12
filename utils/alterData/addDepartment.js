@@ -12,11 +12,12 @@ const addDepartment = (callback) => {
       },
     ])
     .then((response) => {
+      if (!response.addDepartment)
+        throw new Error("Please enter a department name");
       db.query(
         `INSERT INTO departments (department_name) VALUES ("${response.addDepartment}");`,
         (err, results) => {
-          if (err) throw err;
-          viewDepartments(callback);
+          return viewDepartments(callback);
         }
       );
     });
