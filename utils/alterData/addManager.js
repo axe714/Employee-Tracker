@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
 
-const addManager = () => {
+const addManager = (callback) => {
   inquirer
     .prompt([
       {
@@ -30,6 +30,9 @@ const addManager = () => {
       console.log(
         `You created the manager ${response.managerFirstName} ${response.managerLastName} that manages the ${response.managerDepartment} department. Their salary is ${response.managerSalary}.`
       );
+    })
+    .then(() => {
+      setTimeout(callback, 1000);
     });
 };
 

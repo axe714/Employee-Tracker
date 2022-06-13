@@ -12,7 +12,7 @@ const db = require("../../config/connection");
 //   })
 // };
 
-const addRole = () => {
+const addRole = (callback) => {
   inquirer
     .prompt([
       {
@@ -30,7 +30,7 @@ const addRole = () => {
         name: "roleDepartment",
         message: "What department does this role belong to?",
         //TO DO: grab all departments from department table
-        choices: ['Placeholder 1', 'Placeholder 2', 'Placeholder 3'],
+        choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
       },
     ])
     .then((response) => {
@@ -38,6 +38,9 @@ const addRole = () => {
       console.log(
         `You added ${response.addRole} with the salary of ${response.roleSalary} to the roles table`
       );
+    })
+    .then(() => {
+      setTimeout(callback, 1000);
     });
 };
 

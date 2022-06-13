@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
 
-const addEmployee = () => {
+const addEmployee = (callback) => {
   inquirer
     .prompt([
       {
@@ -27,7 +27,10 @@ const addEmployee = () => {
       console.log(
         `You added ${response.firstName} ${response.lastName} as a ${response.employeeRole} to the employee table`
       );
-    });
+    })
+    .then(() => {
+      setTimeout(callback, 2000);
+    });;
 };
 
 module.exports = addEmployee;
