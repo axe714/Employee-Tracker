@@ -36,14 +36,14 @@ const viewRoles = require("../viewData/viewRoles");
 const addRole = (callback) => {
   db.promise()
     .query(`SELECT * FROM departments`)
-    .then((results) => {
+    .then(results => {
       const choices = results[0].map((departments) => {
         return {
           name: departments.department_name,
           value: departments.id,
         };
       });
-      console.table(choices);
+      // console.table(choices);
       inquirer
         .prompt([
           {
@@ -63,7 +63,7 @@ const addRole = (callback) => {
             choices,
           },
         ])
-        .then((response) => {
+        .then(response => {
           setTimeout(callback, 2000);
           db.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${response.title}", ${response.salary}, ${response.department_id});`)
           console.log(`Sucessfully added ${response.title} with a salary of ${response.salary} to the roles table.`);

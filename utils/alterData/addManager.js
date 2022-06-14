@@ -2,37 +2,44 @@ const inquirer = require("inquirer");
 const db = require("../../config/connection");
 
 const addManager = (callback) => {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "managerFirstName",
-        message: "What is your manager's first name?",
-      },
-      {
-        type: "input",
-        name: "managerLastName",
-        message: "What is your manager's last name?",
-      },
-      {
-        type: "list",
-        name: "managerDepartment",
-        message: "What department does your manager preside over?",
-        choices: ["Placeholder 1", "Placeholder 2", "Placeholder 3"],
-      },
-      {
-        type: "input",
-        name: "managerSalary",
-        message: "What is your manager's salary?",
-      },
-    ])
-    .then((response) => {
-      console.log(
-        `You created the manager ${response.managerFirstName} ${response.managerLastName} that manages the ${response.managerDepartment} department. Their salary is ${response.managerSalary}.`
-      );
-    })
-    .then(() => {
-      setTimeout(callback, 1000);
+  db.promise()
+    .query(`SELECT * FROM departments`)
+    .then(results => {
+      const choices = results[0].map((departments) => {
+        return {
+          name: departments.department_name,
+          value: departments.id,
+        };
+      });
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            name: "manager_first_name",
+            message: "What is your manager's first name?",
+          },
+          {
+            type: "input",
+            name: "manager_last_name",
+            message: "What is your manager's last name?",
+          },
+          {
+            type: "input",
+            name: "salary",
+            message: "What is your manager's salary?",
+          },
+          {
+            type: "list",
+            name: "department_id",
+            message: "What department does your manager preside over?",
+            choices
+          },
+        ])
+        .then(response => {
+          setTimeout(callback, 2000);
+          db.query(`INSERT INTO managers (manager_first_name, manager_last_name, salary, department_id) VALUES ("${response.manager_first_name}", "${response.manager_last_name}", ${response.salary}, ${response.department_id});`)
+          console.log(`Sucessfully added ${response.manager_first_name} ${response.manager_last_name} as a manager with a salary of ${response.salary} to the managers table.`);
+        });
     });
 };
 

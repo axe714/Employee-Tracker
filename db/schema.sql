@@ -20,8 +20,8 @@ CREATE TABLE managers (
     manager_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     manager_first_name VARCHAR(30) NOT NULL,
     manager_last_name VARCHAR(30) NOT NULL,
-    department_id INT, 
     salary DECIMAL NOT NULL,
+    department_id INT, 
     FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
