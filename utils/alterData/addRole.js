@@ -38,7 +38,7 @@ const addRole = (callback) => {
     .then((results) => {
       const departmentChoice = results[0].map((departments) => {
         return {
-          department_name: departments.department_name,
+          name: departments.department_name,
           value: departments.id,
         };
       });
