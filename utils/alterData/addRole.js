@@ -72,7 +72,7 @@ const addRole = (callback) => {
           console.log(
             `Sucessfully added ${response.title} with a salary of ${response.salary} to the roles table.`
           );
-          //BROKEN. displayers starterQuestion prompts twice.
+          //BROKEN. displays starterQuestion prompts twice.
           // viewRoles(callback)
         });
     });
