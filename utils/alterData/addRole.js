@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
+const viewRoles = require("../viewData/viewRoles");
 
 // const departmentChoice = () => {
 //   db.promise().query(`SELECT * FROM departments`, (err, results) => {
@@ -36,36 +37,36 @@ const addRole = (callback) => {
   db.promise()
     .query(`SELECT * FROM departments`)
     .then((results) => {
-      const departmentChoice = results[0].map((departments) => {
+      const choices = results[0].map((departments) => {
         return {
           name: departments.department_name,
           value: departments.id,
         };
       });
-      console.table(departmentChoice);
+      console.table(choices);
       inquirer
         .prompt([
           {
             type: "input",
-            name: "roleName",
+            name: "title",
             message: "What is the name of the role you would like to add?",
           },
           {
             type: "input",
-            name: "roleSalary",
+            name: "salary",
             message: "What is the salary of the role you would like to add?",
           },
           {
             type: "list",
             name: "department_id",
             message: "What department does this role belong to?",
-            //TO DO: grab all departments from department table
-            choices: departmentChoice,
+            choices,
           },
         ])
-        .then((res) => {
-          setTimeout(callback, 1000);
-          console.table(res);
+        .then((response) => {
+          setTimeout(callback, 2000);
+          db.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${response.title}", ${response.salary}, ${response.department_id});`)
+          console.log(`Sucessfully added ${response.title} with a salary of ${response.salary} to the roles table.`);
         });
     });
 };
