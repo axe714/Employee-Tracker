@@ -30,7 +30,7 @@ const addEmployee = (callback) => {
     })
     .then(() => {
       setTimeout(callback, 2000);
-    });;
+    });
 };
 
 module.exports = addEmployee;
