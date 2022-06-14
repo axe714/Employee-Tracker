@@ -1,10 +1,11 @@
 const db = require("../../config/connection");
 
+
 const viewDepartments = (callback) => {
   db.query(`SELECT * FROM departments`, (err, results) => {
     if (err) throw err;
     setTimeout(callback, 2000);
-    return console.table(results)
+    return console.table(results);
   });
 };
 
@@ -19,4 +20,3 @@ const viewDepartments = (callback) => {
 // };
 
 module.exports = viewDepartments;
-

@@ -2,35 +2,44 @@ const inquirer = require("inquirer");
 const db = require("../../config/connection");
 
 const addEmployee = (callback) => {
+  db.promise()
+  .query(`SELECT * FROM roles`)
+  .then((results) => {
+    const choices = results[0].map((role) => {
+      return {
+        name: role.title,
+        value: role.id,
+      };
+    });
+
   inquirer
     .prompt([
       {
         type: "input",
-        name: "firstName",
+        name: "first_name",
         message: "What is the employee's first name?",
       },
       {
         type: "input",
-        name: "lastName",
+        name: "last_name",
         message: "What is the employee's last name?",
       },
       {
         type: "list",
-        name: "employeeRole",
+        name: "role_id",
         message: "What is the employee's role?",
         //TO DO: add a function to get all roles via unique id in database
-        choices: ["Placeholder1", "Placeholder2", "Placeholder3"],
+        choices: choices
       },
     ])
     .then((response) => {
       //TO DO: add employee to the employee table
+      setTimeout(callback, 2000);
       console.log(
-        `You added ${response.firstName} ${response.lastName} as a ${response.employeeRole} to the employee table`
+        `You added ${response.first_name} ${response.last_name} as a ${response.role_id} to the employee table`
       );
     })
-    .then(() => {
-      setTimeout(callback, 2000);
-    });
+  })
 };
 
 module.exports = addEmployee;
