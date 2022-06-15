@@ -38,6 +38,8 @@ const addManager = (callback) => {
           },
         ])
         .then((response) => {
+          if (!response.manager_first_name || !response.manager_last_name || !response.salary)
+          throw new Error("Please enter a value for all fields");
           setTimeout(callback, 2000);
           db.query(
             `INSERT INTO managers (manager_first_name, manager_last_name, salary, department_id) VALUES ("${response.manager_first_name}", "${response.manager_last_name}", ${response.salary}, ${response.department_id});`

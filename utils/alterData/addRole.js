@@ -65,6 +65,8 @@ const addRole = (callback) => {
           },
         ])
         .then((response) => {
+          if (!response.title || !response.salary)
+          throw new Error("Please enter a value for all fields");
           setTimeout(callback, 2000);
           db.query(
             `INSERT INTO roles (title, salary, department_id) VALUES ("${response.title}", ${response.salary}, ${response.department_id});`
