@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
+const viewEmployee = require("../viewData/viewEmployees");
 
 const updateEmployeesPrompt = [
   {
@@ -8,9 +9,9 @@ const updateEmployeesPrompt = [
     message: "What would you like to do?",
     choices: [
       "Change employee role",
-      "Change employee salary",
       "Delete employee",
-      "Go back to main menu",
+      // "Return to main menu",
+      "Exit",
     ],
   },
 ];
@@ -30,16 +31,20 @@ const updateEmployee = (callback) => {
       case "Change employee role":
         changeEmployeeRole();
         break;
-      case "Change employee salary":
-        changeEmployeeSalary();
-        break;
+
       case "Delete employee":
         deleteEmployee();
         break;
-      case "Go back to main menu":
-        setTimeout(callback, 2000);
-        console.log("Going back to main menu....");
-        break;
+
+      // case "Return to main menu":
+      //   setTimeout(callback, 2000);
+      //   break;
+
+      case "Exit":
+        console.log(`Goodbye!`);
+        setTimeout(() => {
+          process.exit();
+        }, 2000);
     }
   });
 };
@@ -54,7 +59,7 @@ const changeEmployeeRole = () => {
           value: employee.employee_id,
         };
       });
-      console.log(choices);
+      // console.table(choices);
       inquirer
         .prompt([
           {
@@ -66,11 +71,6 @@ const changeEmployeeRole = () => {
         ])
         .then((response) => {});
     });
-  setTimeout(updateEmployee, 2000);
-};
-
-const changeEmployeeSalary = () => {
-  console.log("You chose change employee salary..");
   setTimeout(updateEmployee, 2000);
 };
 
