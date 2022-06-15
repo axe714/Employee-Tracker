@@ -14,6 +14,14 @@ const addEmployee = (callback) => {
       // console.table(roleChoices);
 
       db.promise()
+      // VALIDATION QUERY TO DISPLAY ONLY MANAGERS ON SELECTED ROLE --------
+
+      // SELECT managers.manager_id, managers.manager_first_name, managers.manager_last_name, departments.department_name, roles.role_id, roles.title
+      // FROM ((managers
+      // INNER JOIN departments ON managers.department_id = departments.id)
+      // INNER JOIN roles ON roles.role_id = departments.id) 
+      // WHERE role_id = ${response.role_id};
+      
         .query(
           `SELECT * FROM managers INNER JOIN departments ON managers.department_id = departments.id;`
         )
