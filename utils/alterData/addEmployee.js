@@ -11,20 +11,27 @@ const addEmployee = (callback) => {
           value: role.role_id,
         };
       });
-      console.table(roleChoices);
+      // console.table(roleChoices);
 
-      //STILL INCOMPLETE. NEED TO JOIN THE ROLE TABLE WITH THE MANAGER TABLE.
       db.promise()
-        .query(`SELECT * FROM managers`)
+        .query(
+          `SELECT * FROM managers INNER JOIN departments ON managers.department_id = departments.id;`
+        )
         .then((results) => {
           const managerChoices = results[0].map((manager) => {
             return {
-              name: manager.manager_first_name + " " + manager.manager_last_name,
+              name:
+                manager.manager_first_name +
+                " " +
+                manager.manager_last_name +
+                " (" +
+                manager.department_name +
+                ")",
               value: manager.manager_id,
             };
           });
-          console.table(managerChoices);
-          
+          // console.table(managerChoices);
+
           inquirer
             .prompt([
               {
@@ -53,10 +60,16 @@ const addEmployee = (callback) => {
               },
             ])
             .then((response) => {
+              if (!response.first_name || !response.last_name)
+                throw new Error("Please enter a value for all fields");
               //TO DO: add employee to the employee table
               setTimeout(callback, 2000);
+              db.query(
+                `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
+                 VALUES ("${response.first_name}", "${response.last_name}", ${response.role_id}, ${response.manager_id});`
+              );
               console.log(
-                `You added ${response.first_name} ${response.last_name} as a ${response.role_id} to the employee table`
+                `You added ${response.first_name} ${response.last_name} to the employees table`
               );
             });
         });

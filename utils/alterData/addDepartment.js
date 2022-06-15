@@ -17,6 +17,9 @@ const addDepartment = (callback) => {
       db.query(
         `INSERT INTO departments (department_name) VALUES ("${response.addDepartment}");`,
         (err, results) => {
+          console.log(
+            `Successfully added ${response.addDepartment} to the departments table.`
+          );
           return viewDepartments(callback);
         }
       );

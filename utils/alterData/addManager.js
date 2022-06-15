@@ -48,7 +48,7 @@ const addManager = (callback) => {
             `Sucessfully added ${response.manager_first_name} ${response.manager_last_name} as a manager with a salary of ${response.salary} to the managers table.`
           );
           //BROKEN. displays starterQuestion prompts twice.
-          // viewManagers(callback);
+          // return viewManagers(callback);
         });
     });
 };
