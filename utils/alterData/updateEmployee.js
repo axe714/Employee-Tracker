@@ -48,6 +48,7 @@ const updateEmployee = (callback) => {
 const changeEmployeeRole = () => {
   db.promise()
     .query(
+      //grabs all employees + the current title that they have in order to display them to the user
       `SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`
     )
     .then((results) => {
@@ -110,6 +111,7 @@ const changeEmployeeRole = () => {
 
 const deleteEmployee = () => {
   db.promise()
+  //grabs all employees + the current title that they have in order to display them to the user
     .query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`)
     .then((results) => {
       const choices = results[0].map((employee) => {
@@ -140,6 +142,7 @@ const deleteEmployee = () => {
 
 const updateManager = () => {
   db.promise()
+    //grabs all employees + the current title that they have in order to display them to the user
     .query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`)
     .then((results) => {
       const choices = results[0].map((employee) => {
@@ -160,7 +163,7 @@ const updateManager = () => {
         ])
         .then((response) => {
           db.promise()
-          //join managers and departments table to get all managers
+          //join managers and departments table to get all managers + departments that they manage
             .query(`SELECT * FROM managers LEFT JOIN departments ON managers.department_id = departments.id`)
             .then((results) => {
               const managers = results[0].map((manager) => {
