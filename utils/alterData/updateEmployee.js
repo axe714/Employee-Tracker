@@ -69,9 +69,42 @@ const changeEmployeeRole = () => {
             choices,
           },
         ])
-        .then((response) => {});
+        .then((response) => {
+          db.promise()
+            .query(`SELECT * FROM roles`)
+            .then((results) => {
+              const roles = results[0].map((role) => {
+                return {
+                  name: role.title,
+                  value: role.role_id,
+                };
+              });
+              inquirer
+                .prompt([
+                  {
+                    type: "list",
+                    name: "role_id",
+                    message: "What is the new role?",
+                    choices: roles,
+                  },
+                ])
+                .then((results) => {
+                  console.log(results)
+                  db.promise()
+                    .query(
+                      `UPDATE employees SET role_id = ? WHERE employee_id = ?`,
+                      [results.role_id, response.employee_id]
+                    )
+                    .then(() => {
+                      console.log(
+                        `Successfully updated employee!`
+                      );
+                      setTimeout(updateEmployee, 2000);
+                    });
+                });
+            });
+        });
     });
-  setTimeout(updateEmployee, 2000);
 };
 
 const deleteEmployee = () => {

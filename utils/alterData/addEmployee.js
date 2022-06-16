@@ -21,7 +21,7 @@ const addEmployee = (callback) => {
       // INNER JOIN departments ON managers.department_id = departments.id)
       // INNER JOIN roles ON roles.role_id = departments.id) 
       // WHERE role_id = ${response.role_id};
-      
+
         .query(
           `SELECT * FROM managers INNER JOIN departments ON managers.department_id = departments.id;`
         )
@@ -74,7 +74,7 @@ const addEmployee = (callback) => {
               setTimeout(callback, 2000);
               db.query(
                 `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
-                 VALUES ("${response.first_name}", "${response.last_name}", ${response.role_id}, ${response.manager_id});`
+                VALUES ("${response.first_name}", "${response.last_name}", ${response.role_id}, ${response.manager_id});`
               );
               console.log(
                 `You added ${response.first_name} ${response.last_name} to the employees table`

@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const db = require("../../config/connection");
 const viewDepartments = require("../viewData/viewDepartments");
 
+
 const addDepartment = (callback) => {
   inquirer
     .prompt([
