@@ -16,15 +16,6 @@ const updateEmployeesPrompt = [
   },
 ];
 
-// const changeRolePrompt = [
-//   {
-//     type: "list",
-//     name: "employee_id",
-//     message: "Which employee's role would you like to change?",
-//     choices
-//   },
-// ];
-
 const updateEmployee = (callback) => {
   inquirer.prompt(updateEmployeesPrompt).then((response) => {
     switch (response.updateEmployeeOptions) {
@@ -51,11 +42,19 @@ const updateEmployee = (callback) => {
 
 const changeEmployeeRole = () => {
   db.promise()
-    .query(`SELECT * FROM employees`)
+    .query(
+      `SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`
+    )
     .then((results) => {
       const choices = results[0].map((employee) => {
         return {
-          name: employee.first_name + " " + employee.last_name,
+          name:
+            employee.first_name +
+            " " +
+            employee.last_name +
+            " (" +
+            employee.title +
+            ")",
           value: employee.employee_id,
         };
       });
@@ -106,15 +105,15 @@ const changeEmployeeRole = () => {
 
 const deleteEmployee = () => {
   db.promise()
-    .query(`SELECT * FROM employees`)
+    .query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`)
     .then((results) => {
       const choices = results[0].map((employee) => {
         return {
-          name: employee.first_name + " " + employee.last_name,
+          name: employee.first_name + " " + employee.last_name + " (" + employee.title + ")",
           value: employee.employee_id,
         };
       });
-      console.table(choices);
+      // console.table(choices);
       inquirer
         .prompt([
           {
