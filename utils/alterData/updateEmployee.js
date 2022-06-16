@@ -9,6 +9,7 @@ const updateEmployeesPrompt = [
     message: "What would you like to do?",
     choices: [
       "Change employee role",
+      "Update an employee's manager",
       "Delete employee",
       // "Return to main menu",
       "Exit",
@@ -23,7 +24,11 @@ const updateEmployee = (callback) => {
         changeEmployeeRole();
         break;
 
-      case "Delete employee":
+        case "Update an employee's manager":
+        updateManager();
+        break;
+
+      case "Delete an employee":
         deleteEmployee();
         break;
 
@@ -132,5 +137,61 @@ const deleteEmployee = () => {
         });
     });
 };
+
+const updateManager = () => {
+  db.promise()
+    .query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`)
+    .then((results) => {
+      const choices = results[0].map((employee) => {
+        return {
+          name: employee.first_name + " " + employee.last_name + " (" + employee.title + ")",
+          value: employee.employee_id,
+        };
+      });
+      // console.table(choices);
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "employee_id",
+            message: "Which employee would you like to update?",
+            choices,
+          },
+        ])
+        .then((response) => {
+          db.promise()
+          //join managers and departments table to get all managers
+            .query(`SELECT * FROM managers LEFT JOIN departments ON managers.department_id = departments.id`)
+            .then((results) => {
+              const managers = results[0].map((manager) => {
+                return {
+                  name: manager.manager_first_name + " " + manager.manager_last_name + " (" + manager.department_name + " department" + ")",
+                  value: manager.manager,
+                };
+              });
+              inquirer
+                .prompt([
+                  {
+                    type: "list",
+                    name: "manager_id",
+                    message: "Who is this employee's new manager?",
+                    choices: managers,
+                  },
+                ])
+                .then((results) => {
+                  db.promise()
+                    .query(
+                      `UPDATE employees SET manager_id = ? WHERE employee_id = ?`,
+                      [results.manager_manager_id, response.employee_id]
+                    )
+                    .then(() => {
+                      console.log(`Successfully updated employee!`);
+                      setTimeout(updateEmployee, 2000);
+                    });
+                });
+            });
+        });
+    });
+}
 
 module.exports = updateEmployee;
