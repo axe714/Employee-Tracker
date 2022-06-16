@@ -169,7 +169,7 @@ const updateManager = () => {
               const managers = results[0].map((manager) => {
                 return {
                   name: manager.manager_first_name + " " + manager.manager_last_name + " (" + manager.department_name + " department" + ")",
-                  value: manager.manager,
+                  value: manager.manager_id,
                 };
               });
               inquirer
@@ -185,7 +185,7 @@ const updateManager = () => {
                   db.promise()
                     .query(
                       `UPDATE employees SET manager_id = ? WHERE employee_id = ?`,
-                      [results.manager_manager_id, response.employee_id]
+                      [results.manager_id, response.employee_id]
                     )
                     .then(() => {
                       console.log(`Successfully updated employee!`);
