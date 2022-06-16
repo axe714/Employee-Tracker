@@ -26,7 +26,7 @@ const starterQuestion = () => {
           "Add Role",
           "Add Manager",
           "Add Employee",
-          "Update Employee Role",
+          "Update An Employee",
           "Exit",
         ],
       },
@@ -65,7 +65,7 @@ const starterQuestion = () => {
           addEmployee(starterQuestion);
           break;
 
-        case "Update Employee Role":
+        case "Update An Employee":
           updateEmployee(starterQuestion);
           break;
 
