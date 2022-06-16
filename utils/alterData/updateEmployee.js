@@ -89,16 +89,13 @@ const changeEmployeeRole = () => {
                   },
                 ])
                 .then((results) => {
-                  console.log(results)
                   db.promise()
                     .query(
                       `UPDATE employees SET role_id = ? WHERE employee_id = ?`,
                       [results.role_id, response.employee_id]
                     )
                     .then(() => {
-                      console.log(
-                        `Successfully updated employee!`
-                      );
+                      console.log(`Successfully updated employee!`);
                       setTimeout(updateEmployee, 2000);
                     });
                 });
@@ -108,8 +105,33 @@ const changeEmployeeRole = () => {
 };
 
 const deleteEmployee = () => {
-  console.log("You chose delete employee..");
-  setTimeout(updateEmployee, 2000);
+  db.promise()
+    .query(`SELECT * FROM employees`)
+    .then((results) => {
+      const choices = results[0].map((employee) => {
+        return {
+          name: employee.first_name + " " + employee.last_name,
+          value: employee.employee_id,
+        };
+      });
+      console.table(choices);
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "employee_id",
+            message: "Which employee would you like to delete?",
+            choices,
+          },
+        ])
+        .then((response) => {
+          db.promise().query(
+            `DELETE FROM employees WHERE employee_id = ${response.employee_id}`
+          );
+          console.log(`Successfully deleted employee!`);
+          setTimeout(updateEmployee, 2000);
+        });
+    });
 };
 
 module.exports = updateEmployee;
