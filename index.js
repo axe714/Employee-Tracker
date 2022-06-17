@@ -32,8 +32,7 @@ const starterQuestion = async () => {
   ]);
   switch (mainMenu) {
     case "View All Departments":
-      const showDepartments = await viewDepartments()
-      console.table(showDepartments[0])
+      viewDepartments()
       return setTimeout(starterQuestion, 2000)
 
     case "View All Roles":
@@ -52,9 +51,10 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
 
     case "Add Department":
-      addDepartment(starterQuestion);
-      break;
-
+      const addedDepartments = await addDepartment();
+      viewDepartments()
+      return setTimeout(starterQuestion, 2000)
+      
     case "Add Role":
       addRole(starterQuestion);
       break;
