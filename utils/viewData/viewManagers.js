@@ -1,12 +1,8 @@
 const db = require("../../config/connection");
 
-const viewManagers = (callback) => {
-  db.query(`SELECT * FROM managers`, (err, results) => {
-    if (err) throw err;
-    setTimeout(callback, 2000)
-    return console.table(results);
-  });
-  
+const viewManagers = async () => {
+  const managers = await db.promise().query(`SELECT * FROM managers`)
+  return managers
 };
 
 module.exports = viewManagers;
