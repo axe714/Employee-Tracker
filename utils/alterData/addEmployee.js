@@ -46,7 +46,6 @@ const addEmployee = async () => {
   };
 
   const sortedDepartments = await availableDepartments();
-
   const { manager_id } = await inquirer.prompt([
     {
       type: "list",

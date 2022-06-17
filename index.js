@@ -68,8 +68,8 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
 
     case "Update An Employee":
-      updateEmployee(starterQuestion);
-      break;
+      const updatedEmployee = await updateEmployee();
+      return setTimeout(starterQuestion, 2000);
 
     case "Exit":
       console.log(`Goodbye!`);
@@ -82,3 +82,5 @@ const init = () => {
 };
 
 init();
+
+exports.module = { starterQuestion }

@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
-const viewEmployee = require("../viewData/viewEmployees");
+const viewRoles = require("../viewData/viewRoles");
 
 const updateEmployeesPrompt = [
   {
@@ -17,38 +17,124 @@ const updateEmployeesPrompt = [
   },
 ];
 
-const updateEmployee = (callback) => {
-  inquirer.prompt(updateEmployeesPrompt).then((response) => {
-    switch (response.updateEmployeeOptions) {
-      case "Change employee role":
-        changeEmployeeRole();
-        break;
+const updateEmployee = async () => {
+  const { updateEmployeeOptions } = await inquirer.prompt(
+    updateEmployeesPrompt
+  );
+  switch (updateEmployeeOptions) {
+    case "Change employee role":
+      const changedEmployeeRole = await changeEmployeeRole();
+      return setTimeout(updateEmployee, 2000);
 
-        case "Update an employee's manager":
-        updateManager();
-        break;
+    case "Update an employee's manager":
+      const updatedManager = await updateManager()
+      return setTimeout(updateEmployee, 2000)
 
-      case "Delete an employee":
-        deleteEmployee();
-        break;
+    case "Delete an employee":
+      const deletedEmployee = await deleteEmployee();
+      return setTimeout(updateEmployee, 2000)
 
-      // case "Return to main menu":
-      //   setTimeout(callback, 2000);
-      //   break;
+    // case "Return to main menu":
+    //   setTimeout(callback, 2000);
+    //   break;
 
-      case "Exit":
-        console.log(`Goodbye!`);
-        setTimeout(() => {
-          process.exit();
-        }, 2000);
-    }
-  });
+    case "Exit":
+      console.log(`Goodbye!`);
+      setTimeout(() => {
+        process.exit();
+      }, 2000);
+  }
 };
 
-const changeEmployeeRole = () => {
+const changeEmployeeRole = async () => {
+  const employeeRoleTable = await db.promise().query(
+    //grabs all employees + the current title that they have in order to display them to the user
+    `SELECT employees.employee_id, employees.first_name, employees.last_name, employees.role_id, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id;`
+  );
+  const { employee_id } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "employee_id",
+      message: "Which employee's role would you like to change?",
+      choices: employeeRoleTable[0].map(e=>({name: e.first_name + " " + e.last_name + " (" + e.title + ")", value: e.employee_id }))
+    }
+  ])
+
+  const availableRoles = await viewRoles()
+  const { role_id } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "role_id",
+      message: "What is the new role?",
+      choices: availableRoles[0].map(r=>({name: r.title, value:r.role_id}))
+    }
+  ])
+
+  await db.promise().query(`UPDATE employees SET role_id = ? WHERE employee_id = ?`, [role_id, employee_id])
+
+  return console.log(`Successfully updated employee's role! NOTE: Don't forget to change the employees manager if applicable!`)
+}
+  // .then((results) => {
+  //   const choices = results[0].map((employee) => {
+  //     return {
+  //       name:
+  //         employee.first_name +
+  //         " " +
+  //         employee.last_name +
+  //         " (" +
+  //         employee.title +
+  //         ")",
+  //       value: employee.employee_id,
+  //     };
+  //   });
+  // console.table(choices);
+  // inquirer
+  //   .prompt([
+  //     {
+  //       type: "list",
+  //       name: "employee_id",
+  //       message: "Which employee's role would you like to change?",
+  //       choices,
+  //     },
+  //   ])
+    // .then((response) => {
+    //   db.promise()
+    //     .query(`SELECT * FROM roles`)
+    //     .then((results) => {
+    //       const roles = results[0].map((role) => {
+    //         return {
+    //           name: role.title,
+    //           value: role.role_id,
+    //         };
+    //       });
+    //       inquirer
+    //         .prompt([
+    //           {
+    //             type: "list",
+    //             name: "role_id",
+    //             message: "What is the new role?",
+    //             choices: roles,
+    //           },
+    //         ])
+    //         .then((results) => {
+    //           db.promise()
+    //             .query(
+    //               `UPDATE employees SET role_id = ? WHERE employee_id = ?`,
+    //               [results.role_id, response.employee_id]
+    //             )
+    //             .then(() => {
+    //               console.log(`Successfully updated employee!`);
+    //               setTimeout(updateEmployee, 2000);
+    //             });
+    //         });
+    //     });
+    // });
+
+
+const deleteEmployee = () => {
   db.promise()
+    //grabs all employees + the current title that they have in order to display them to the user
     .query(
-      //grabs all employees + the current title that they have in order to display them to the user
       `SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`
     )
     .then((results) => {
@@ -61,62 +147,6 @@ const changeEmployeeRole = () => {
             " (" +
             employee.title +
             ")",
-          value: employee.employee_id,
-        };
-      });
-      // console.table(choices);
-      inquirer
-        .prompt([
-          {
-            type: "list",
-            name: "employee_id",
-            message: "Which employee's role would you like to change?",
-            choices,
-          },
-        ])
-        .then((response) => {
-          db.promise()
-            .query(`SELECT * FROM roles`)
-            .then((results) => {
-              const roles = results[0].map((role) => {
-                return {
-                  name: role.title,
-                  value: role.role_id,
-                };
-              });
-              inquirer
-                .prompt([
-                  {
-                    type: "list",
-                    name: "role_id",
-                    message: "What is the new role?",
-                    choices: roles,
-                  },
-                ])
-                .then((results) => {
-                  db.promise()
-                    .query(
-                      `UPDATE employees SET role_id = ? WHERE employee_id = ?`,
-                      [results.role_id, response.employee_id]
-                    )
-                    .then(() => {
-                      console.log(`Successfully updated employee!`);
-                      setTimeout(updateEmployee, 2000);
-                    });
-                });
-            });
-        });
-    });
-};
-
-const deleteEmployee = () => {
-  db.promise()
-  //grabs all employees + the current title that they have in order to display them to the user
-    .query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`)
-    .then((results) => {
-      const choices = results[0].map((employee) => {
-        return {
-          name: employee.first_name + " " + employee.last_name + " (" + employee.title + ")",
           value: employee.employee_id,
         };
       });
@@ -143,11 +173,19 @@ const deleteEmployee = () => {
 const updateManager = () => {
   db.promise()
     //grabs all employees + the current title that they have in order to display them to the user
-    .query(`SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`)
+    .query(
+      `SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`
+    )
     .then((results) => {
       const choices = results[0].map((employee) => {
         return {
-          name: employee.first_name + " " + employee.last_name + " (" + employee.title + ")",
+          name:
+            employee.first_name +
+            " " +
+            employee.last_name +
+            " (" +
+            employee.title +
+            ")",
           value: employee.employee_id,
         };
       });
@@ -163,12 +201,21 @@ const updateManager = () => {
         ])
         .then((response) => {
           db.promise()
-          //join managers and departments table to get all managers + departments that they manage
-            .query(`SELECT * FROM managers LEFT JOIN departments ON managers.department_id = departments.id`)
+            //join managers and departments table to get all managers + departments that they manage
+            .query(
+              `SELECT * FROM managers LEFT JOIN departments ON managers.department_id = departments.id`
+            )
             .then((results) => {
               const managers = results[0].map((manager) => {
                 return {
-                  name: manager.manager_first_name + " " + manager.manager_last_name + " (" + manager.department_name + " department" + ")",
+                  name:
+                    manager.manager_first_name +
+                    " " +
+                    manager.manager_last_name +
+                    " (" +
+                    manager.department_name +
+                    " department" +
+                    ")",
                   value: manager.manager_id,
                 };
               });
@@ -195,6 +242,6 @@ const updateManager = () => {
             });
         });
     });
-}
+};
 
 module.exports = updateEmployee;
