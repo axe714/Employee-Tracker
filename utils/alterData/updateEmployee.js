@@ -10,8 +10,8 @@ const updateEmployeesPrompt = [
     choices: [
       "Change employee role",
       "Update an employee's manager",
-      "Delete employee",
-      // "Return to main menu",
+      "Delete an employee",
+      "Return to main menu",
       "Exit",
     ],
   },
@@ -24,19 +24,18 @@ const updateEmployee = async () => {
   switch (updateEmployeeOptions) {
     case "Change employee role":
       const changedEmployeeRole = await changeEmployeeRole();
-      return 
+      return;
 
     case "Update an employee's manager":
       const updatedManager = await updateManager();
-      return 
+      return;
 
     case "Delete an employee":
       const deletedEmployee = await deleteEmployee();
-      return 
+      return;
 
-    // case "Return to main menu":
-    //   setTimeout(callback, 2000);
-    //   break;
+    case "Return to main menu":
+      return console.log(`Returning to main menu....`);
 
     case "Exit":
       console.log(`Goodbye!`);
@@ -48,7 +47,6 @@ const updateEmployee = async () => {
 
 const changeEmployeeRole = async () => {
   let employeeRoleTable = await db.promise().query(
-    //grabs all employees + the current title that they have in order to display them to the user
     `SELECT employees.employee_id, employees.first_name, employees.last_name, employees.role_id, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id;`
   );
   const { employee_id } = await inquirer.prompt([
@@ -139,47 +137,53 @@ const updateManager = async () => {
       employee_id,
     ]);
 
-  return console.log(`Successfully updated the employee's manager!`)
+  return console.log(`Successfully updated the employee's manager!`);
 };
 
 
-const deleteEmployee = () => {
-  db.promise()
-    //grabs all employees + the current title that they have in order to display them to the user
+const deleteEmployee = async () => {
+  const employeeRoleTable = await db
+    .promise()
     .query(
-      `SELECT * FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id`
-    )
-    .then((results) => {
-      const choices = results[0].map((employee) => {
-        return {
-          name:
-            employee.first_name +
-            " " +
-            employee.last_name +
-            " (" +
-            employee.title +
-            ")",
-          value: employee.employee_id,
-        };
-      });
-      // console.table(choices);
-      inquirer
-        .prompt([
-          {
-            type: "list",
-            name: "employee_id",
-            message: "Which employee would you like to delete?",
-            choices,
-          },
-        ])
-        .then((response) => {
-          db.promise().query(
-            `DELETE FROM employees WHERE employee_id = ${response.employee_id}`
-          );
-          console.log(`Successfully deleted employee!`);
-          setTimeout(updateEmployee, 2000);
-        });
-    });
+      `SELECT employees.employee_id, employees.first_name, employees.last_name, employees.role_id, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id;`
+    );
+
+  const { employee_id } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "employee_id",
+      message: "Which employee would you like to delete?",
+      choices: employeeRoleTable[0].map(e=>({name:
+        e.first_name +
+        " " +
+        e.last_name +
+        " (" +
+        e.title +
+        ")",
+      value: e.employee_id,}))
+    },
+  ]);
+
+  await db
+    .promise()
+    .query(`DELETE FROM employees WHERE employee_id = ${employee_id}`);
+  return console.log(`Successfully deleted employee!`);
+
 };
+
+// .then((results) => {
+//   const choices = results[0].map((employee) => {
+//     return {
+      // name:
+      //   employee.first_name +
+      //   " " +
+      //   employee.last_name +
+      //   " (" +
+      //   employee.title +
+      //   ")",
+      // value: employee.employee_id,
+//     };
+//   });
+// console.table(choices);
 
 module.exports = updateEmployee;
