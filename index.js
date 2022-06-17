@@ -53,7 +53,6 @@ const starterQuestion = async () => {
 
     case "Add Department":
       const addedDepartments = await addDepartment();
-      viewDepartments()
       return setTimeout(starterQuestion, 2000)
       
     case "Add Role":
