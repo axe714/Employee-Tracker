@@ -56,8 +56,8 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
       
     case "Add Role":
-      addRole(starterQuestion);
-      break;
+      const addedRole = await addRole();
+      return setTimeout(starterQuestion, 2000)
 
     case "Add Manager":
       addManager(starterQuestion);
