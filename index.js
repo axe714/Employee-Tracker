@@ -32,7 +32,8 @@ const starterQuestion = async () => {
   ]);
   switch (mainMenu) {
     case "View All Departments":
-      viewDepartments()
+      const showDepartments = await viewDepartments()
+      console.table(showDepartments[0])
       return setTimeout(starterQuestion, 2000)
 
     case "View All Roles":

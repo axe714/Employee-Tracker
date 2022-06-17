@@ -3,7 +3,7 @@ const db = require("../../config/connection");
 const viewManagers = require("../viewData/viewManagers");
 const viewRoles = require("../viewData/viewRoles");
 
-const addRole = (callback) => {
+const addRole = () => {
   db.promise()
     .query(`SELECT * FROM departments`)
     .then((results) => {
