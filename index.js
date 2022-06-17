@@ -47,8 +47,9 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
 
     case "View All Employees":
-      viewEmployees(starterQuestion);
-      break;
+      const showEmployees = await viewEmployees()
+      console.table(showEmployees[0])
+      return setTimeout(starterQuestion, 2000)
 
     case "Add Department":
       addDepartment(starterQuestion);

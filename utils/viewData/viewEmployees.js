@@ -1,11 +1,8 @@
 const db = require("../../config/connection");
 
-const viewEmployees = (callback) => {
-  db.query(`SELECT * FROM employees`, (err, results) => {
-    if (err) throw err;
-    setTimeout(callback, 2000)
-    return console.table(results);
-  });
+const viewEmployees = async () => {
+  const employees = db.promise().query(`SELECT * FROM employees`);
+  return employees;
 };
 
 module.exports = viewEmployees;
