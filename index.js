@@ -10,70 +10,68 @@ const addManager = require("./utils/alterData/addManager");
 const addEmployee = require("./utils/alterData/addEmployee");
 const updateEmployee = require("./utils/alterData/updateEmployee");
 
-const starterQuestion = () => {
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "starterQuestion",
-        message: "What would you like to do?",
-        choices: [
-          "View All Departments",
-          "View All Roles",
-          "View All Managers",
-          "View All Employees",
-          "Add Department",
-          "Add Role",
-          "Add Manager",
-          "Add Employee",
-          "Update An Employee",
-          "Exit",
-        ],
-      },
-    ])
-    .then((response) => {
-      switch (response.starterQuestion) {
-        case "View All Departments":
-          viewDepartments(starterQuestion);
-          break;
+const starterQuestion = async () => {
+  const { mainMenu } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "mainMenu",
+      message: "What would you like to do?",
+      choices: [
+        "View All Departments",
+        "View All Roles",
+        "View All Managers",
+        "View All Employees",
+        "Add Department",
+        "Add Role",
+        "Add Manager",
+        "Add Employee",
+        "Update An Employee",
+        "Exit",
+      ],
+    },
+  ]);
+  switch (mainMenu) {
+    case "View All Departments":
+      const showDepartments = await viewDepartments()
+      console.table(showDepartments[0])
+      return setTimeout(starterQuestion, 2000)
 
-        case "View All Roles":
-          viewRoles(starterQuestion);
-          break;
+    case "View All Roles":
+      viewRoles(starterQuestion);
+      break;
 
-        case "View All Managers":
-          viewManagers(starterQuestion);
-          break;
+    case "View All Managers":
+      viewManagers(starterQuestion);
+      break;
 
-        case "View All Employees":
-          viewEmployees(starterQuestion);
-          break;
+    case "View All Employees":
+      viewEmployees(starterQuestion);
+      break;
 
-        case "Add Department":
-          addDepartment(starterQuestion);
-          break;
+    case "Add Department":
+      addDepartment(starterQuestion);
+      break;
 
-        case "Add Role":
-          addRole(starterQuestion);
-          break;
+    case "Add Role":
+      addRole(starterQuestion);
+      break;
 
-        case "Add Manager":
-          addManager(starterQuestion);
-          break;
+    case "Add Manager":
+      addManager(starterQuestion);
+      break;
 
-        case "Add Employee":
-          addEmployee(starterQuestion);
-          break;
+    case "Add Employee":
+      addEmployee(starterQuestion);
+      break;
 
-        case "Update An Employee":
-          updateEmployee(starterQuestion);
-          break;
+    case "Update An Employee":
+      updateEmployee(starterQuestion);
+      break;
 
-        case "Exit":
-          console.log(`Goodbye!`);
-          process.exit(1);
-      }
-    });
+    case "Exit":
+      console.log(`Goodbye!`);
+      process.exit(1);
+  }
 };
 
 const init = () => {
@@ -81,4 +79,3 @@ const init = () => {
 };
 
 init();
-
