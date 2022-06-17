@@ -35,7 +35,6 @@ CREATE TABLE employees (
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id) ON DELETE SET NULL
 );
 
-
 -- Run these to easily items inside different tables --
 SELECT * FROM departments;
 SELECT * FROM roles;

@@ -64,8 +64,8 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
 
     case "Add Employee":
-      addEmployee(starterQuestion);
-      break;
+      const addedEmployee = await addEmployee();
+      return setTimeout(starterQuestion, 2000)
 
     case "Update An Employee":
       updateEmployee(starterQuestion);
