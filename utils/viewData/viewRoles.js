@@ -1,11 +1,8 @@
 const db = require("../../config/connection");
 
-const viewRoles = (callback) => {
-  return db.query(`SELECT * FROM roles`, (err, results) => {
-    if (err) throw err;
-    setTimeout(callback, 2000);
-    return console.table(results);
-  });
+const viewRoles = async () => {
+  const roles = await db.promise().query(`SELECT * FROM roles`)
+  return roles
 };
 
 module.exports = viewRoles;

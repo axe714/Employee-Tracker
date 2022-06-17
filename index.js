@@ -37,8 +37,9 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
 
     case "View All Roles":
-      viewRoles(starterQuestion);
-      break;
+      const showRoles = await viewRoles()
+      console.table(showRoles[0])
+      return setTimeout(starterQuestion, 2000)
 
     case "View All Managers":
       viewManagers(starterQuestion);
