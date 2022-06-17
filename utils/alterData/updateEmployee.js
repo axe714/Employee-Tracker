@@ -46,9 +46,12 @@ const updateEmployee = async () => {
 };
 
 const changeEmployeeRole = async () => {
-  let employeeRoleTable = await db.promise().query(
-    `SELECT employees.employee_id, employees.first_name, employees.last_name, employees.role_id, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id;`
-  );
+  let employeeRoleTable = await db
+    .promise()
+    .query(
+      `SELECT employees.employee_id, employees.first_name, employees.last_name, employees.role_id, roles.title FROM employees LEFT JOIN roles ON employees.role_id = roles.role_id;`
+    );
+
   const { employee_id } = await inquirer.prompt([
     {
       type: "list",
@@ -85,7 +88,6 @@ const changeEmployeeRole = async () => {
     `Successfully updated employee's role! NOTE: Don't forget to change the employees manager if applicable!`
   );
 };
-
 
 const updateManager = async () => {
   let employeeRoleTable = await db
@@ -140,7 +142,6 @@ const updateManager = async () => {
   return console.log(`Successfully updated the employee's manager!`);
 };
 
-
 const deleteEmployee = async () => {
   const employeeRoleTable = await db
     .promise()
@@ -153,14 +154,10 @@ const deleteEmployee = async () => {
       type: "list",
       name: "employee_id",
       message: "Which employee would you like to delete?",
-      choices: employeeRoleTable[0].map(e=>({name:
-        e.first_name +
-        " " +
-        e.last_name +
-        " (" +
-        e.title +
-        ")",
-      value: e.employee_id,}))
+      choices: employeeRoleTable[0].map((e) => ({
+        name: e.first_name + " " + e.last_name + " (" + e.title + ")",
+        value: e.employee_id,
+      })),
     },
   ]);
 
@@ -168,20 +165,19 @@ const deleteEmployee = async () => {
     .promise()
     .query(`DELETE FROM employees WHERE employee_id = ${employee_id}`);
   return console.log(`Successfully deleted employee!`);
-
 };
 
 // .then((results) => {
 //   const choices = results[0].map((employee) => {
 //     return {
-      // name:
-      //   employee.first_name +
-      //   " " +
-      //   employee.last_name +
-      //   " (" +
-      //   employee.title +
-      //   ")",
-      // value: employee.employee_id,
+// name:
+//   employee.first_name +
+//   " " +
+//   employee.last_name +
+//   " (" +
+//   employee.title +
+//   ")",
+// value: employee.employee_id,
 //     };
 //   });
 // console.table(choices);

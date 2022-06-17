@@ -17,8 +17,6 @@ const addEmployee = async () => {
     },
   ]);
 
-  console.log(firstName, lastName);
-
   const availableRoles = await viewRoles();
   const { role_id } = await inquirer.prompt([
     {
@@ -31,7 +29,6 @@ const addEmployee = async () => {
       })),
     },
   ]);
-  // console.log(role_id);
 
   //this function filters the available managers to the selected role
   const availableDepartments = async () => {
@@ -64,12 +61,10 @@ const addEmployee = async () => {
       })),
     },
   ]);
-  // console.log(sortedDepartments[0])
-  // console.log(manager_id)
 
   await db.promise()
     .query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)
-                  VALUES ("${firstName}", "${lastName}", ${role_id}, ${manager_id});`);
+          VALUES ("${firstName}", "${lastName}", ${role_id}, ${manager_id});`);
 
   return console.log(`Added ${firstName} ${lastName} to the employees table!`);
 };

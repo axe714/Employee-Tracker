@@ -10,9 +10,11 @@ const addDepartment = async () => {
       message: "What is the name of the department you would like to add?",
     },
   ]);
-  await db.promise().query(
-    `INSERT INTO departments (department_name) VALUES ("${departmentName}");`
-  );
+  await db
+    .promise()
+    .query(
+      `INSERT INTO departments (department_name) VALUES ("${departmentName}");`
+    );
   return console.log(
     `Successfully added ${departmentName} to the departments table.`
   );
