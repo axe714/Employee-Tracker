@@ -60,8 +60,8 @@ const starterQuestion = async () => {
       return setTimeout(starterQuestion, 2000)
 
     case "Add Manager":
-      addManager(starterQuestion);
-      break;
+      const addedManager = await addManager();
+      return setTimeout(starterQuestion, 2000)
 
     case "Add Employee":
       addEmployee(starterQuestion);

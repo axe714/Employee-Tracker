@@ -15,8 +15,8 @@ const addRole = async () => {
       message: "What is the salary of the role you would like to add?",
     },
   ]);
-  console.log(title);
-  console.log(salary);
+  // console.log(title);
+  // console.log(salary);
 
   const availableDepartments = await viewDepartments();
   const { department_id } = await inquirer.prompt([
@@ -30,15 +30,18 @@ const addRole = async () => {
       })),
     },
   ]);
-  console.log(department_id);
+  // console.log(department_id);
 
-  await db.promise().query(
-    `INSERT INTO roles (title, salary, department_id) VALUES ("${title}", ${salary}, ${department_id});`
+  await db
+    .promise()
+    .query(
+      `INSERT INTO roles (title, salary, department_id) VALUES ("${title}", ${salary}, ${department_id});`
+    );
+
+  return console.log(
+    `You added ${title} with a salary of ${salary} to the roles table!`
   );
-
-  return console.log(`You added ${title} with a salary of ${salary} to the roles table!`)
 };
-
 
 // --------- OLD FUNCTION -------------
 
