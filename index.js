@@ -5,6 +5,7 @@ const viewRoles = require("./utils/viewData/viewRoles.js");
 const viewManagers = require("./utils/viewData/viewManagers.js");
 const viewEmployees = require("./utils/viewData/viewEmployees.js");
 const viewByDepartment = require("./utils/viewData/viewByDepartment")
+const viewByManager = require("./utils/viewData/viewByManager")
 const addDepartment = require("./utils/alterData/addDepartment");
 const addRole = require("./utils/alterData/addRole");
 const addManager = require("./utils/alterData/addManager");
@@ -22,7 +23,8 @@ const starterQuestion = async () => {
         "View All Roles",
         "View All Managers",
         "View All Employees",
-        "View All Employees by Department",
+        "Sort Employees by Department",
+        "Sort Employees by Manager",
         "Add Department",
         "Add Role",
         "Add Manager",
@@ -53,9 +55,14 @@ const starterQuestion = async () => {
       console.table(showEmployees[0])
       return setTimeout(starterQuestion, 2000)
 
-    case "View All Employees by Department":
+    case "Sort Employees by Department":
       const employeesByDept = await viewByDepartment();
       console.table(employeesByDept[0])
+      return setTimeout(starterQuestion, 2000)
+
+    case "Sort Employees by Manager":
+      const employeesByManager = await viewByManager();
+      console.table(employeesByManager[0])
       return setTimeout(starterQuestion, 2000)
 
     case "Add Department":
