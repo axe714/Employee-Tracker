@@ -58,11 +58,11 @@
 
 - Functionalities of the application include: 
 ```
-1. Add and view departments
-2. Add and view roles
-3. Add and view managers
-4. Add, view, delete, and modify an employee's role/manager
-5. Sort employees by manager department or role
+1. Add, delete and view departments
+2. Add, delete and view roles
+3. Add, delete and view managers
+4. Add, view, delete, and modify an employee
+5. Sort employees by manager, department or role
 ```
 
 ## License 📃

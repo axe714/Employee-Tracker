@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
-const viewRoles = require("../viewData/viewRoles")
+const viewRoles = require("../viewData/viewRoles");
 
 const changeEmployeeRole = async () => {
   let employeeRoleTable = await db

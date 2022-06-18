@@ -11,8 +11,10 @@ const addRole = require("./utils/alterData/addRole");
 const addManager = require("./utils/alterData/addManager");
 const addEmployee = require("./utils/alterData/addEmployee");
 const updateEmployee = require("./utils/alterData/updateEmployee");
+const deleteManager = require("./utils/alterData/deleteManager")
 const deleteRole = require("./utils/alterData/deleteRole");
 const deleteDepartment = require("./utils/alterData/deleteDepartment");
+
 
 const starterQuestion = async () => {
   const { mainMenu } = await inquirer.prompt([
@@ -32,6 +34,7 @@ const starterQuestion = async () => {
         "Add Manager",
         "Add Employee",
         "Update An Employee",
+        "Delete A Manager",
         "Delete A Role",
         "Delete A Department",
         "Exit",
@@ -89,6 +92,10 @@ const starterQuestion = async () => {
       const updatedEmployee = await updateEmployee();
       return setTimeout(starterQuestion, 2000);
 
+    case "Delete A Manager":
+      const deletedManager = await deleteManager();
+      return setTimeout(starterQuestion, 2000)
+
     case "Delete A Role":
       const deletedRole = await deleteRole();
       return setTimeout(starterQuestion, 2000)
@@ -109,4 +116,3 @@ const init = () => {
 
 init();
 
-exports.module = { starterQuestion }
