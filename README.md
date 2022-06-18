@@ -62,6 +62,7 @@
 2. Add and view roles
 3. Add and view managers
 4. Add, view, delete, and modify an employee's role/manager
+5. Sort employees by manager department or role
 ```
 
 ## License 📃
