@@ -10,7 +10,7 @@ INSERT INTO roles (title, salary, department_id)
 VALUES 
     ("Occupational Therapist", 95000, 1),
     ("Physical Therapist", 105000, 1),
-    ("Certified Nurse Assistant", 35000, 2);
+    ("Certified Nurse Assistant", 35000, 2),
     ("Plumber", 25000, 3);
 
 INSERT INTO managers (manager_first_name, manager_last_name, department_id, salary)

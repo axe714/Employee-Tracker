@@ -1,5 +1,4 @@
 const inquirer = require("inquirer");
-const { listenerCount } = require("process");
 const db = require("../../config/connection");
 const viewRoles = require("../viewData/viewRoles");
 
@@ -35,7 +34,7 @@ const addEmployee = async () => {
     const departments = await db.promise()
       .query(`SELECT roles.role_id, managers.manager_id, managers.manager_first_name, managers.manager_last_name, departments.department_name
       FROM ((roles
-      INNER JOIN managers on roles.department_id = managers.department_id)
+      INNER JOIN managers ON roles.department_id = managers.department_id)
       INNER JOIN departments on roles.department_id = departments.department_id)
       WHERE role_id = ${role_id}`);
 
