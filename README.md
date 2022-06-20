@@ -2,14 +2,14 @@
 
 ![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-![Employee Tracker Demo - Pending](#)
+[![Employee Tracker Video](https://img.youtube.com/vi/yaZs5ZJZTcQ/0.jpg)](https://www.youtube.com/watch?v=yaZs5ZJZTcQ)
 
 ## Description 📍
 - An employee tracker that utilizes a CLI to create, delete, read and update data inside a MySql database.
 
 ## Table Of Contents 📜
 * [Installation](#installation)
-* [Youtube Link](#youtube)
+* [Youtube](#youtube)
 * [Usage](#usage)
 * [License](#license)
 * [Contribution Guidelines](#contribution-guidelines)
@@ -25,7 +25,7 @@
  4. Run ```node index.js``` in the terminal to launch the CLI
 
 ## Youtube 📽️
-- ![Youtube Link - Pending](https://www.google.com)
+- [Employee Tracker Demo](https://www.youtube.com/watch?v=yaZs5ZJZTcQ)
 
 ## Usage 📌
 - This application uses a CLI to access and edit files inside a mock company's database using MySql queries. 

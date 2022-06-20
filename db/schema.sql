@@ -36,8 +36,7 @@ CREATE TABLE employees (
 );
 
 -- Run these to easily items inside different tables --
-SELECT * FROM departments;
-SELECT * FROM roles;
-SELECT * FROM managers;
-SELECT * FROM employees;
-
+-- SELECT * FROM departments;
+-- SELECT * FROM roles;
+-- SELECT * FROM managers;
+-- SELECT * FROM employees;
