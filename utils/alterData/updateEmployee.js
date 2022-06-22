@@ -1,9 +1,8 @@
 const inquirer = require("inquirer");
 const db = require("../../config/connection");
-const changeEmployeeRole = require("./changeEmployeeRole")
-const changeEmployeeManager = require("./changeEmployeeManager")
-const deleteEmployee = require("./deleteEmployee")
-
+const changeEmployeeRole = require("./changeEmployeeRole");
+const changeEmployeeManager = require("./changeEmployeeManager");
+const deleteEmployee = require("./deleteEmployee");
 
 const updateEmployeesPrompt = [
   {
@@ -21,30 +20,34 @@ const updateEmployeesPrompt = [
 ];
 
 const updateEmployee = async () => {
-  const { updateEmployeeOptions } = await inquirer.prompt(
-    updateEmployeesPrompt
-  );
-  switch (updateEmployeeOptions) {
-    case "Change employee role":
-      const changedEmployeeRole = await changeEmployeeRole();
-      return;
+  try {
+    const { updateEmployeeOptions } = await inquirer.prompt(
+      updateEmployeesPrompt
+    );
+    switch (updateEmployeeOptions) {
+      case "Change employee role":
+        const changedEmployeeRole = await changeEmployeeRole();
+        return;
 
-    case "Update an employee's manager":
-      const updatedManager = await changeEmployeeManager();
-      return;
+      case "Update an employee's manager":
+        const updatedManager = await changeEmployeeManager();
+        return;
 
-    case "Delete an employee":
-      const deletedEmployee = await deleteEmployee();
-      return;
+      case "Delete an employee":
+        const deletedEmployee = await deleteEmployee();
+        return;
 
-    case "Return to main menu":
-      return console.log(`Returning to main menu....`);
+      case "Return to main menu":
+        return console.log(`Returning to main menu....`);
 
-    case "Exit":
-      console.log(`Goodbye!`);
-      setTimeout(() => {
-        process.exit();
-      }, 2000);
+      case "Exit":
+        console.log(`Goodbye!`);
+        setTimeout(() => {
+          process.exit();
+        }, 2000);
+    }
+  } catch (err) {
+    console.error(err);
   }
 };
 
