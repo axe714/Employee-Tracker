@@ -3,48 +3,52 @@ const db = require("../../config/connection");
 const viewDepartments = require("../viewData/viewDepartments");
 
 const addManager = async () => {
-  const { firstName, lastName, salary } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "firstName",
-      message: "What is your manager's first name?",
-    },
-    {
-      type: "input",
-      name: "lastName",
-      message: "What is your manager's last name?",
-    },
-    {
-      type: "input",
-      name: "salary",
-      message: "What is your manager's salary?",
-    },
-  ]);
-  // console.log(firstName, lastName, salary);
+  try {
+    const { firstName, lastName, salary } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "firstName",
+        message: "What is your manager's first name?",
+      },
+      {
+        type: "input",
+        name: "lastName",
+        message: "What is your manager's last name?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is your manager's salary?",
+      },
+    ]);
+    // console.log(firstName, lastName, salary);
 
-  const availableDepartments = await viewDepartments();
-  const { department_id } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "department_id",
-      message: "What department does your manager preside over?",
-      choices: availableDepartments[0].map((d) => ({
-        name: d.department_name,
-        value: d.department_id,
-      })),
-    },
-  ]);
-  // console.log(department_id);
+    const availableDepartments = await viewDepartments();
+    const { department_id } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "department_id",
+        message: "What department does your manager preside over?",
+        choices: availableDepartments[0].map((d) => ({
+          name: d.department_name,
+          value: d.department_id,
+        })),
+      },
+    ]);
+    // console.log(department_id);
 
-  await db
-    .promise()
-    .query(
-      `INSERT INTO managers (manager_first_name, manager_last_name, salary, department_id) VALUES ("${firstName}", "${lastName}", ${salary}, ${department_id});`
+    await db
+      .promise()
+      .query(
+        `INSERT INTO managers (manager_first_name, manager_last_name, salary, department_id) VALUES ("${firstName}", "${lastName}", ${salary}, ${department_id});`
+      );
+
+    return console.log(
+      `You added the manager ${firstName} ${lastName} with a salary of ${salary} to the managers table!`
     );
-
-  return console.log(
-    `You added the manager ${firstName} ${lastName} with a salary of ${salary} to the managers table!`
-  );
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 // ----------- OLD FUNCTION ------------------

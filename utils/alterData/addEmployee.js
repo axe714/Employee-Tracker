@@ -3,69 +3,75 @@ const db = require("../../config/connection");
 const viewRoles = require("../viewData/viewRoles");
 
 const addEmployee = async () => {
-  const { firstName, lastName } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "firstName",
-      message: "What is the employee's first name?",
-    },
-    {
-      type: "input",
-      name: "lastName",
-      message: "What is the employee's last name?",
-    },
-  ]);
+  try {
+    const { firstName, lastName } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "firstName",
+        message: "What is the employee's first name?",
+      },
+      {
+        type: "input",
+        name: "lastName",
+        message: "What is the employee's last name?",
+      },
+    ]);
 
-  const availableRoles = await viewRoles();
-  const { role_id } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "role_id",
-      message: "What is this employee's role/title?",
-      choices: availableRoles[0].map((r) => ({
-        name: r.title,
-        value: r.role_id,
-      })),
-    },
-  ]);
+    const availableRoles = await viewRoles();
+    const { role_id } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "role_id",
+        message: "What is this employee's role/title?",
+        choices: availableRoles[0].map((r) => ({
+          name: r.title,
+          value: r.role_id,
+        })),
+      },
+    ]);
 
-  //this function filters the available managers to the selected role
-  const availableDepartments = async () => {
-    const departments = await db.promise()
-      .query(`SELECT roles.role_id, managers.manager_id, managers.manager_first_name, managers.manager_last_name, departments.department_name
+    //this function filters the available managers to the selected role
+    const availableDepartments = async () => {
+      const departments = await db.promise()
+        .query(`SELECT roles.role_id, managers.manager_id, managers.manager_first_name, managers.manager_last_name, departments.department_name
       FROM ((roles
       INNER JOIN managers ON roles.department_id = managers.department_id)
       INNER JOIN departments on roles.department_id = departments.department_id)
       WHERE role_id = ${role_id}`);
 
-    return departments;
-  };
+      return departments;
+    };
 
-  const sortedDepartments = await availableDepartments();
-  const { manager_id } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "manager_id",
-      message: "Who is this employees manager?",
-      choices: sortedDepartments[0].map((d) => ({
-        name:
-          d.manager_first_name +
-          " " +
-          d.manager_last_name +
-          " (" +
-          d.department_name +
-          " Department" +
-          ")",
-        value: d.manager_id,
-      })),
-    },
-  ]);
+    const sortedDepartments = await availableDepartments();
+    const { manager_id } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "manager_id",
+        message: "Who is this employees manager?",
+        choices: sortedDepartments[0].map((d) => ({
+          name:
+            d.manager_first_name +
+            " " +
+            d.manager_last_name +
+            " (" +
+            d.department_name +
+            " Department" +
+            ")",
+          value: d.manager_id,
+        })),
+      },
+    ]);
 
-  await db.promise()
-    .query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)
+    await db.promise()
+      .query(`INSERT INTO employees (first_name, last_name, role_id, manager_id)
           VALUES ("${firstName}", "${lastName}", ${role_id}, ${manager_id});`);
 
-  return console.log(`Added ${firstName} ${lastName} to the employees table!`);
+    return console.log(
+      `Added ${firstName} ${lastName} to the employees table!`
+    );
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 // -------------- OLD FUNCTION ---------------------

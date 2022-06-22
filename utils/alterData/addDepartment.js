@@ -3,21 +3,29 @@ const db = require("../../config/connection");
 const viewDepartments = require("../viewData/viewDepartments");
 
 const addDepartment = async () => {
-  const { departmentName } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "departmentName",
-      message: "What is the name of the department you would like to add?",
-    },
-  ]);
-  await db
-    .promise()
-    .query(
-      `INSERT INTO departments (department_name) VALUES ("${departmentName}");`
+  try {
+    const { departmentName } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "departmentName",
+        message: "What is the name of the department you would like to add?",
+      },
+    ]);
+    await db
+      .promise()
+      .query(
+        `INSERT INTO departments (department_name) VALUES ("${departmentName}");`
+      );
+    return console.log(
+      `Successfully added ${departmentName} to the departments table.`
     );
-  return console.log(
-    `Successfully added ${departmentName} to the departments table.`
-  );
+  } catch {
+    console.error(
+      new Error(
+        "Something went wrong! Please make sure you're entering a department name that does not already exist."
+      )
+    );
+  }
 };
 
 // ------- OLD FUNCTION ----------

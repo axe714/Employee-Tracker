@@ -3,44 +3,52 @@ const db = require("../../config/connection");
 const viewDepartments = require("../viewData/viewDepartments");
 
 const addRole = async () => {
-  const { title, salary } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "title",
-      message: "What is the name of the role you would like to add?",
-    },
-    {
-      type: "input",
-      name: "salary",
-      message: "What is the salary of the role you would like to add?",
-    },
-  ]);
-  // console.log(title);
-  // console.log(salary);
+  try {
+    const { title, salary } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What is the name of the role you would like to add?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is the salary of the role you would like to add?",
+      },
+    ]);
+    // console.log(title);
+    // console.log(salary);
 
-  const availableDepartments = await viewDepartments();
-  const { department_id } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "department_id",
-      message: "What department does this role belong to?",
-      choices: availableDepartments[0].map((d) => ({
-        name: d.department_name,
-        value: d.department_id,
-      })),
-    },
-  ]);
-  // console.log(department_id);
+    const availableDepartments = await viewDepartments();
+    const { department_id } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "department_id",
+        message: "What department does this role belong to?",
+        choices: availableDepartments[0].map((d) => ({
+          name: d.department_name,
+          value: d.department_id,
+        })),
+      },
+    ]);
+    // console.log(department_id);
 
-  await db
-    .promise()
-    .query(
-      `INSERT INTO roles (title, salary, department_id) VALUES ("${title}", ${salary}, ${department_id});`
+    await db
+      .promise()
+      .query(
+        `INSERT INTO roles (title, salary, department_id) VALUES ("${title}", ${salary}, ${department_id});`
+      );
+
+    return console.log(
+      `You added ${title} with a salary of ${salary} to the roles table!`
     );
-
-  return console.log(
-    `You added ${title} with a salary of ${salary} to the roles table!`
-  );
+  } catch {
+    console.error(
+      new Error(
+        "Something went wrong! Please make sure all that required fields are filled out and that you're entering a role that does not already exist."
+      )
+    );
+  }
 };
 
 // --------- OLD FUNCTION -------------
